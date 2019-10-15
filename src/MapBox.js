@@ -1,11 +1,12 @@
 import React from 'react';
 import './App.css';
-import ReactMapGL, {Marker} from "react-map-gl"
+import ReactMapGL, {Marker, Popup} from "react-map-gl"
 import poorTree from "../src/svg/poorTree.svg"
 import fairTree from "../src/svg/fairTree.svg"
 import goodTree from "../src/svg/goodTree.svg"
 import unknown from "../src/svg/unknown.svg"
 import CategorySelector from './CategorySelector';
+
 // import TreeSpecs from './TreeSpecs'
 
 class MapBox extends React.Component {
@@ -19,21 +20,8 @@ class MapBox extends React.Component {
     },
     treesCollection:[],
     filterTerm: "all",
-    pickedTree: {},
-    showSpecs: false
-  }
-
-  viewTree = (obj) => {
-    this.setState({
-      pickedTree: obj,
-      showSpecs: !this.state.showSpecs
-    })
-  }
-
-  hideSpecs = () => {
-    this.setState({
-      showSpecs: false
-    })
+    selectedTree: {},
+    setSelectedTree: false
   }
 
   onViewportChange = viewport => {
@@ -48,54 +36,88 @@ class MapBox extends React.Component {
     .then(trees => this.setState({treesCollection: trees}))
   }
 
+  setSelectedTree = (obj) => {
+    // debugger
+    console.log("a tree was clicked")
+    this.setState({
+      selectedTree: obj,
+      setSelectedTree: true
+    })
+  }
+
   renderTreeMarker = (filteredTrees) => {
-    return filteredTrees.map(tree => {
+    // debugger
+    // const [setPickedTree, pickedTree] = useState(null)
+    return filteredTrees.map((tree) => {
       if (tree.health === "Poor") {
-      return <Marker
-        key={tree.tree_id}
-        latitude={parseFloat(tree.latitude)}
-        longitude={parseFloat(tree.longitude)}
-        >
-          <div>
-            <img src={poorTree} alt="poor tree" />
-            {/* <span role="img" aria-label="sick"></span> */}
-          </div>
-        </Marker>
-      } else if (tree.health === "Fair") {
-        return <Marker
+        // debugger
+      return (
+        <Marker
           key={tree.tree_id}
           latitude={parseFloat(tree.latitude)}
           longitude={parseFloat(tree.longitude)}
-        >
-          <div>
-          <img src={fairTree} alt="fair tree"/>
-            {/* <span role="img" aria-label="tiny tree">🌱</span> */}
+          tree={tree}
+        > 
+            <div>
+                <img 
+                src={poorTree} 
+                alt="poor tree"
+                onClick={()=> this.setSelectedTree(tree)}
+                />
             </div>
-        </Marker>
+        </Marker>)
+
+      } else if (tree.health === "Fair") {
+        return (
+          <Marker
+            key={tree.tree_id}
+            latitude={parseFloat(tree.latitude)}
+            longitude={parseFloat(tree.longitude)}
+            tree={tree}
+          > 
+              <div>
+                  <img 
+                  src={fairTree} 
+                  alt="fair tree"
+                  onClick={()=> this.setSelectedTree(tree)}
+                  />
+              </div>
+        </Marker>)
         } else if (tree.health === "Good") {
-          return <Marker
-            key={tree.tree_id}
-            latitude={parseFloat(tree.latitude)}
-            longitude={parseFloat(tree.longitude)}
-          >
-            <div>
-            <img src={goodTree} alt="good tree"/>
-              {/* <span role="img" aria-label="tree">🌳</span> */}
-              </div>
-          </Marker>
+          return (
+            <Marker
+              key={tree.tree_id}
+              latitude={parseFloat(tree.latitude)}
+              longitude={parseFloat(tree.longitude)}
+              tree={tree}
+            > 
+                <div>
+                    <img 
+                    src={goodTree} 
+                    alt="good tree"
+                    onClick={()=> this.setSelectedTree(tree)}
+                    />
+                </div>
+          </Marker>)
           } else {
-            return <Marker
-            key={tree.tree_id}
-            latitude={parseFloat(tree.latitude)}
-            longitude={parseFloat(tree.longitude)}
-          >
-            <div>
-            <img src={unknown} alt="unknown"/>
-              {/* <span role="img" aria-label="tree">🌳</span> */}
-              </div>
-          </Marker>
+            return (
+              <Marker
+                key={tree.tree_id}
+                latitude={parseFloat(tree.latitude)}
+                longitude={parseFloat(tree.longitude)}
+                tree={tree}
+              > 
+                  <div>
+                      <img 
+                      src={unknown} 
+                      alt="unknown"
+                      onClick={()=> this.setSelectedTree(tree)}
+                      />
+                  </div>
+            </Marker>)
           }
-    }) 
+    })
+
   }
 
   handleRadio = (event) => {
@@ -105,11 +127,12 @@ class MapBox extends React.Component {
   }
 
   render(){
+    console.log(this.state.selectedTree)
     const maxDifference = 0.025
     const allTrees = [...this.state.treesCollection]
     let filteredTrees = allTrees.filter(tree => (parseFloat(tree.longitude) < this.state.viewport["longitude"]+maxDifference && parseFloat(tree.longitude) > this.state.viewport["longitude"]-maxDifference) && (parseFloat(tree.latitude )< this.state.viewport["latitude"]+maxDifference && parseFloat(tree.latitude) > this.state.viewport["latitude"]-maxDifference))
 
-    // console.log(filteredTrees)
+    console.log(filteredTrees)
 
     if (this.state.filterTerm !== "all") {
         
@@ -127,7 +150,24 @@ class MapBox extends React.Component {
         mapStyle="mapbox://styles/dwang0816/ck1k0qvij2rrl1cobig03w3rf"
         onViewportChange={this.onViewportChange}
       >
+        
         {this.renderTreeMarker(filteredTrees)}
+
+        {this.state.setSelectedTree ? (
+            <Popup
+              latitude={parseFloat(this.state.selectedTree.latitude)}
+              longitude={parseFloat(this.state.selectedTree.longitude)}
+              closeButton={true}
+              closeOnClick={false}
+              onClose={() => this.setState({setSelectedTree: false})}
+              anchor="bottom" 
+            >
+              <div>
+                <h3>Species: {this.state.selectedTree.spc_common}</h3>
+                <p>Health: {this.state.selectedTree.health}</p>
+              </div>
+            </Popup>
+        ) : null}
       </ReactMapGL>
       <div style={{position:"fixed", bottom: "0", left:"0", width:"100%", height: "30px", zIndex:"100", background:"rgba(200, 200, 200, 0.6)"}}>
         {/* <TreeSpecs/> */}
