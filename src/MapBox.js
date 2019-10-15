@@ -1,14 +1,14 @@
 import React from 'react';
 import './App.css';
-import ReactMapGL, {Marker, Popup} from "react-map-gl"
+import ReactMapGL, {Marker} from "react-map-gl"
 import poorTree from "../src/svg/poorTree.svg"
 import fairTree from "../src/svg/fairTree.svg"
 import goodTree from "../src/svg/goodTree.svg"
 import unknown from "../src/svg/unknown.svg"
 import CategorySelector from './CategorySelector';
-import TreeSpecs from './TreeSpecs'
+// import TreeSpecs from './TreeSpecs'
 
-class Mapbox extends React.Component {
+class MapBox extends React.Component {
   state={
     viewport:{
       latitude: 40.707562759945795,
@@ -51,19 +51,16 @@ class Mapbox extends React.Component {
   renderTreeMarker = (filteredTrees) => {
     return filteredTrees.map(tree => {
       if (tree.health === "Poor") {
-      return (
-        <Marker
+      return <Marker
         key={tree.tree_id}
         latitude={parseFloat(tree.latitude)}
         longitude={parseFloat(tree.longitude)}
-        
         >
           <div>
-      <img src={poorTree} alt="poor tree" onClick={<Popup coordinates={[parseFloat(tree.latitude), parseFloat(tree.longitude)]}/>}/>
+            <img src={poorTree} alt="poor tree" />
             {/* <span role="img" aria-label="sick"></span> */}
           </div>
         </Marker>
-      )
       } else if (tree.health === "Fair") {
         return <Marker
           key={tree.tree_id}
@@ -71,7 +68,7 @@ class Mapbox extends React.Component {
           longitude={parseFloat(tree.longitude)}
         >
           <div>
-          <img src={fairTree} alt="fair tree" onClick={<Popup coordinates={[parseFloat(tree.latitude), parseFloat(tree.longitude)]}/>}/>
+          <img src={fairTree} alt="fair tree"/>
             {/* <span role="img" aria-label="tiny tree">🌱</span> */}
             </div>
         </Marker>
@@ -82,7 +79,7 @@ class Mapbox extends React.Component {
             longitude={parseFloat(tree.longitude)}
           >
             <div>
-            <img src={goodTree} alt="good tree" onClick={<Popup coordinates={[parseFloat(tree.latitude), parseFloat(tree.longitude)]}/>}/>
+            <img src={goodTree} alt="good tree"/>
               {/* <span role="img" aria-label="tree">🌳</span> */}
               </div>
           </Marker>
@@ -93,7 +90,7 @@ class Mapbox extends React.Component {
             longitude={parseFloat(tree.longitude)}
           >
             <div>
-            <img src={unknown} alt="unknown" onClick={<Popup coordinates={[parseFloat(tree.latitude), parseFloat(tree.longitude)]}/>}/>
+            <img src={unknown} alt="unknown"/>
               {/* <span role="img" aria-label="tree">🌳</span> */}
               </div>
           </Marker>
@@ -111,7 +108,9 @@ class Mapbox extends React.Component {
     const maxDifference = 0.025
     const allTrees = [...this.state.treesCollection]
     let filteredTrees = allTrees.filter(tree => (parseFloat(tree.longitude) < this.state.viewport["longitude"]+maxDifference && parseFloat(tree.longitude) > this.state.viewport["longitude"]-maxDifference) && (parseFloat(tree.latitude )< this.state.viewport["latitude"]+maxDifference && parseFloat(tree.latitude) > this.state.viewport["latitude"]-maxDifference))
+
     // console.log(filteredTrees)
+
     if (this.state.filterTerm !== "all") {
         
         filteredTrees = filteredTrees.filter(tree => tree.spc_common && tree.spc_common.toLowerCase() === this.state.filterTerm.toLowerCase())
@@ -131,11 +130,11 @@ class Mapbox extends React.Component {
         {this.renderTreeMarker(filteredTrees)}
       </ReactMapGL>
       <div style={{position:"fixed", bottom: "0", left:"0", width:"100%", height: "30px", zIndex:"100", background:"rgba(200, 200, 200, 0.6)"}}>
-        <TreeSpecs/>
+        {/* <TreeSpecs/> */}
       </div>
     </div>
     )
   }
 }
 
-export default Mapbox;
+export default MapBox;
