@@ -44,7 +44,7 @@ class MapBox extends React.Component {
   // }
 
   componentDidMount(){
-    fetch(`http://localhost:3000/trees`)
+    fetch(`https://nyc-trees-backend.herokuapp.com/trees`)
     .then(res => res.json())
     .then(trees => this.setState({treesCollection: trees}))
   }
