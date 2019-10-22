@@ -30,18 +30,18 @@ class MapBox extends React.Component {
     
   };
 
-  componentDidUpdate(prevProps, prevState){
-    if(prevState.viewport.latitude !== this.state.viewport.latitude) {
-    fetch(`http://localhost:3000/trees?latitude=${this.state.viewport["latitude"]}&longitude=${this.state.viewport['longitude']}`)
-    .then(res => res.json())
-    .then(trees => {
-      // localStorage.setItem("treesCollection", trees)
-      // console.log(localStorage.treesCollection)
-      // console.log(JSON.stringify(localStorage.treesCollection))
-      this.setState({treesCollection: trees})
-    })
-    }
-  }
+  // componentDidUpdate(prevProps, prevState){
+  //   if(prevState.viewport.latitude !== this.state.viewport.latitude) {
+  //   fetch(`http://localhost:3000/trees?latitude=${this.state.viewport["latitude"]}&longitude=${this.state.viewport['longitude']}`)
+  //   .then(res => res.json())
+  //   .then(trees => {
+  //     // localStorage.setItem("treesCollection", trees)
+  //     // console.log(localStorage.treesCollection)
+  //     // console.log(JSON.stringify(localStorage.treesCollection))
+  //     this.setState({treesCollection: trees})
+  //   })
+  //   }
+  // }
 
   componentDidMount(){
     fetch(`http://localhost:3000/trees`)
@@ -143,13 +143,13 @@ class MapBox extends React.Component {
 
 
     //RENDERING FROM FRONT END//
-    // const maxDifference = 0.025
-    // const allTrees = [...this.state.treesCollection]
-    // let filteredTrees = allTrees.filter(tree => (parseFloat(tree.longitude) < this.state.viewport["longitude"]+maxDifference && parseFloat(tree.longitude) > this.state.viewport["longitude"]-maxDifference) && (parseFloat(tree.latitude )< this.state.viewport["latitude"]+maxDifference && parseFloat(tree.latitude) > this.state.viewport["latitude"]-maxDifference))
+    const maxDifference = 0.025
+    const allTrees = [...this.state.treesCollection]
+    let filteredTrees = allTrees.filter(tree => (parseFloat(tree.longitude) < this.state.viewport["longitude"]+maxDifference && parseFloat(tree.longitude) > this.state.viewport["longitude"]-maxDifference) && (parseFloat(tree.latitude )< this.state.viewport["latitude"]+maxDifference && parseFloat(tree.latitude) > this.state.viewport["latitude"]-maxDifference))
 
 
     //RENDERING FROM BACK END//
-    let filteredTrees = [...this.state.treesCollection]
+    // let filteredTrees = [...this.state.treesCollection]
 
     //RENDERING FROM LOCAL STORAGE//
     // console.log(JSON.parse(localStorage.treesCollection))
