@@ -14,7 +14,7 @@ class MapBox extends React.Component {
     viewport:{
       latitude: 40.707562759945795,
       longitude: -73.95710169404246,
-      zoom: 10,
+      zoom: 13,
       width:'100vw',
       height: "100vh"
     },
@@ -30,15 +30,28 @@ class MapBox extends React.Component {
     
   };
 
+  componentDidUpdate(prevProps, prevState){
+    if(prevState.viewport.latitude !== this.state.viewport.latitude) {
+    fetch(`http://localhost:3000/trees?latitude=${this.state.viewport["latitude"]}&longitude=${this.state.viewport['longitude']}`)
+    .then(res => res.json())
+    .then(trees => {
+      // localStorage.setItem("treesCollection", trees)
+      // console.log(localStorage.treesCollection)
+      // console.log(JSON.stringify(localStorage.treesCollection))
+      this.setState({treesCollection: trees})
+    })
+    }
+  }
+
   componentDidMount(){
-    fetch("http://localhost:3000/trees")
+    fetch(`http://localhost:3000/trees`)
     .then(res => res.json())
     .then(trees => this.setState({treesCollection: trees}))
   }
 
   setSelectedTree = (obj) => {
     // debugger
-    console.log("a tree was clicked")
+    // console.log("a tree was clicked")
     this.setState({
       selectedTree: obj,
       setSelectedTree: true
@@ -127,13 +140,23 @@ class MapBox extends React.Component {
   }
 
   render(){
-    console.log(this.state.selectedTree)
-    const maxDifference = 0.025
-    const allTrees = [...this.state.treesCollection]
-    let filteredTrees = allTrees.filter(tree => (parseFloat(tree.longitude) < this.state.viewport["longitude"]+maxDifference && parseFloat(tree.longitude) > this.state.viewport["longitude"]-maxDifference) && (parseFloat(tree.latitude )< this.state.viewport["latitude"]+maxDifference && parseFloat(tree.latitude) > this.state.viewport["latitude"]-maxDifference))
 
-    console.log(filteredTrees)
 
+    //RENDERING FROM FRONT END//
+    // const maxDifference = 0.025
+    // const allTrees = [...this.state.treesCollection]
+    // let filteredTrees = allTrees.filter(tree => (parseFloat(tree.longitude) < this.state.viewport["longitude"]+maxDifference && parseFloat(tree.longitude) > this.state.viewport["longitude"]-maxDifference) && (parseFloat(tree.latitude )< this.state.viewport["latitude"]+maxDifference && parseFloat(tree.latitude) > this.state.viewport["latitude"]-maxDifference))
+
+
+    //RENDERING FROM BACK END//
+    let filteredTrees = [...this.state.treesCollection]
+
+    //RENDERING FROM LOCAL STORAGE//
+    // console.log(JSON.parse(localStorage.treesCollection))
+    // let filteredTrees = localStorage.getItem('treesCollection')
+
+
+    //FILTER ON SPECIES METHOD//
     if (this.state.filterTerm !== "all") {
         
         filteredTrees = filteredTrees.filter(tree => tree.spc_common && tree.spc_common.toLowerCase() === this.state.filterTerm.toLowerCase())
@@ -150,7 +173,7 @@ class MapBox extends React.Component {
         mapStyle="mapbox://styles/dwang0816/ck1k0qvij2rrl1cobig03w3rf"
         onViewportChange={this.onViewportChange}
       >
-        
+
         {this.renderTreeMarker(filteredTrees)}
 
         {this.state.setSelectedTree ? (
@@ -169,7 +192,7 @@ class MapBox extends React.Component {
             </Popup>
         ) : null}
       </ReactMapGL>
-      <div style={{position:"fixed", bottom: "0", left:"0", width:"100%", height: "30px", zIndex:"100", background:"rgba(200, 200, 200, 0.6)"}}>
+      <div style={{position:"fixed", bottom: "0", left:"0", width:"100%", height: "30px", zIndex:"100", background:"rgba(255, 255, 255, 0.6)"}}>
         {/* <TreeSpecs/> */}
       </div>
     </div>
