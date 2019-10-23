@@ -29,7 +29,7 @@ class MapBox extends React.Component {
     this.setState({viewport});
     
   };
-
+     // FOR RENDERING FROM THE BACKEND //
   // componentDidUpdate(prevProps, prevState){
   //   if(prevState.viewport.latitude !== this.state.viewport.latitude) {
   //   fetch(`http://localhost:3000/trees?latitude=${this.state.viewport["latitude"]}&longitude=${this.state.viewport['longitude']}`)
@@ -60,7 +60,6 @@ class MapBox extends React.Component {
 
   renderTreeMarker = (filteredTrees) => {
     // debugger
-    // const [setPickedTree, pickedTree] = useState(null)
     return filteredTrees.map((tree) => {
       if (tree.health === "Poor") {
         // debugger
@@ -158,7 +157,6 @@ class MapBox extends React.Component {
 
     //FILTER ON SPECIES METHOD//
     if (this.state.filterTerm !== "all") {
-        
         filteredTrees = filteredTrees.filter(tree => tree.spc_common && tree.spc_common.toLowerCase() === this.state.filterTerm.toLowerCase())
     } 
     
@@ -193,7 +191,6 @@ class MapBox extends React.Component {
         ) : null}
       </ReactMapGL>
       <div style={{position:"fixed", bottom: "0", left:"0", width:"100%", height: "30px", zIndex:"100", background:"rgba(255, 255, 255, 0.6)"}}>
-        {/* <TreeSpecs/> */}
       </div>
     </div>
     )
