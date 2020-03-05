@@ -12,7 +12,7 @@ Click on trees to view species and health, trees will appear and disappear based
 # Code
 Built with React and Mapbox component.
 
-# Developer
+# Developers
 Install project dependencies:
 ```
 $ npm install
