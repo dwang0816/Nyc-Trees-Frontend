@@ -14,9 +14,10 @@ Built with React and Mapbox component.
 
 # Developer
 Install project dependencies:
-
+```
 $ npm install
-
+```
 start the app:
-
+```
 $ npm start
+```
