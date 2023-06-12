@@ -1,6 +1,6 @@
 # NYC TREES
 
-https://nyc-trees-frontend.herokuapp.com/
+https://scintillating-pasca-0fd429.netlify.app/
 
 ![](nyc-trees.gif)
 
