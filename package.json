@@ -9,7 +9,7 @@
     "react-scripts": "3.2.0"
   },
   "engines": {
-    "node": "18.x",
+    "node": "16.x",
     "npm": "9.5.0"
   },
   "scripts": {
