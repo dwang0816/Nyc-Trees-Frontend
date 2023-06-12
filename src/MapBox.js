@@ -44,7 +44,7 @@ class MapBox extends React.Component {
   // }
 
   componentDidMount(){
-    fetch(`https://data.cityofnewyork.us/resource/uvpi-gqnh.json?$limit=3000`)
+    fetch(`https://data.cityofnewyork.us/resource/uvpi-gqnh.json`)
     .then(res => res.json())
     .then(trees => this.setState({treesCollection: trees}))
   }
