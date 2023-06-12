@@ -27,4 +27,4 @@ start the app:
 $ npm start
 ```
 
-Heroku-22
+Netlify
