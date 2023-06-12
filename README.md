@@ -2,6 +2,9 @@
 
 https://scintillating-pasca-0fd429.netlify.app/
 
+Data from:
+https://www.kaggle.com/code/yash16jr/tree-census-data-cleaning/input
+
 ![](nyc-trees.gif)
 
 Map made with the first 1000 tree coordinates from NYC Open Data. Labeled by species and health level.
