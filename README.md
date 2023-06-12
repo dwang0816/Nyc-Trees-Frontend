@@ -7,7 +7,7 @@ https://www.kaggle.com/code/yash16jr/tree-census-data-cleaning/input
 
 ![](nyc-trees.gif)
 
-Map made with the first 1000 tree coordinates from NYC Open Data. Labeled by species and health level.
+Map made with the first 10000 tree coordinates from NYC Open Data. Labeled by species and health level.
 
 ##note: Dead Trees are trees with unknown status.
 
