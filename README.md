@@ -1,13 +1,15 @@
 # NYC TREES
-Hey all, nice to meet you! I'm Dennis and this is the first app I've created using coordinates pulled from an API endpoint to plot out some tree datas.
+Hey all, nice to meet you! I'm Dennis and this is the first app I've created using coordinates pulled from an API endpoint to plot out some tree data.
 
-The goal of this is to display them by their health level as well as a filter for their species.
+The goal of this is to display them by their health level as well as a filter for their species which are both given attributes in the data set. (link below)
 
 Here's the deployed site: https://scintillating-pasca-0fd429.netlify.app/
 
-While working on this app, I've had some challenges figuring out how to do all of the data entries without the app completely freezing, and despite having a relatively good CPU, it's sad to say maybe it's not the easiest thing to load 30,000 objects at once on a webpage without some lags.
+While working on this app, I noticed on the official website for NYC StreetTree Census data, it was quite taxing on the CPU to display each tree 
 
-As a result - I've decided to only load the first 10,000 objects available from the end point, and just for the sake of learning how to use Mapbox API, this has been quite the journey.
+I've had some challenges figuring out how to display all of the data entries without the app completely freezing, and despite trying a couple of solutions via local storage or backend loading, it's sad to say it's not the easiest thing to load 30,000 objects at once on a webpage without some lags.
+
+As a result - I've decided to only load the first 10,000 objects available from the end point, and just for the sake of learning how to use Mapbox API, this has been a fun little project.
 
 Thank you for visiting! 
 
